@@ -2,12 +2,18 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:online_reservation_app/src/auth/views/signup_screen.dart';
 import 'package:online_reservation_app/utils/display_toast_message.dart';
 import 'package:online_reservation_app/utils/firebase_collections.dart';
 
 class AuthService extends GetConnect {
   Future<UserCredential?> signUpUser(
-      String firstName, String lastName, String email, String password) async {
+    String fullName,
+    String email,
+    String mobileNo,
+    UserGender gender,
+    String password,
+  ) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -15,15 +21,14 @@ class AuthService extends GetConnect {
       );
       Map<String, dynamic> data = {
         "uid": userCredential.user!.uid,
-        "first_name": firstName,
-        "last_name": lastName,
+        "full_name": fullName,
+        "mobile_no": mobileNo,
         "email": email,
-        "notification": true,
+        "gender": gender.name,
       };
       if (userCredential.user != null) {
         await usersCollection.doc(userCredential.user!.uid).set(data);
-        await userCredential.user!.sendEmailVerification();
-        userCredential.user?.updateDisplayName('$firstName $lastName');
+        userCredential.user?.updateDisplayName(fullName);
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -45,7 +50,7 @@ class AuthService extends GetConnect {
         password: password,
       );
       if (!userCredential.user!.emailVerified) {
-        await userCredential.user!.sendEmailVerification();
+        // await userCredential.user!.sendEmailVerification();
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -57,33 +62,6 @@ class AuthService extends GetConnect {
     }
     return null;
   }
-
-  // phoneNoVerification() async {
-  //   FirebaseAuth auth = FirebaseAuth.instance;
-
-  //   await auth.verifyPhoneNumber(
-  //     phoneNumber: '${userModel.value.mobileNo}',
-  //     verificationCompleted: (PhoneAuthCredential credential) async {},
-  //     verificationFailed: (FirebaseAuthException e) {
-  //       if (e.code == 'invalid-phone-number') {
-  //         displayToastMessage('The provided phone number is not valid.');
-  //       }
-  //       isLoading.value = false;
-  //     },
-  //     codeSent: (String verificationId, int? resendToken) async {
-  //       isLoading.value = false;
-  //       Get.to(() => OtpVerificationScreen(
-  //             phoneNumber: '${userModel.value.mobileNo}',
-  //             verificationId: '$verificationId',
-  //             userData: userModel.value,
-  //           ));
-  //     },
-  //     timeout: const Duration(seconds: 120),
-  //     codeAutoRetrievalTimeout: (String verificationId) {
-  //       isLoading.value = false;
-  //     },
-  //   );
-  // }
 
   // resentVerificationCode(userFormDataFrom) async {
   //   isLoading.value = true;

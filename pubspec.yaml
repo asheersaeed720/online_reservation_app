@@ -49,6 +49,7 @@ dependencies:
   cached_network_image: ^3.2.1
   async_button_builder: ^2.3.0+1
   flutter_image_compress: ^1.1.0
+  flutter_overlay_loader: ^2.0.0
   google_maps_place_picker_mb: ^2.0.0-mb.17
 
   # The following adds the Cupertino Icons font to your application.

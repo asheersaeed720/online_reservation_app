@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:online_reservation_app/utils/constants.dart';
@@ -29,7 +27,6 @@ class CustomInputField extends StatelessWidget with InputValidationMixin {
       margin: const EdgeInsets.symmetric(horizontal: 18.0),
       child: keyboardType == TextInputType.phone
           ? IntlPhoneField(
-              controller: controller,
               keyboardType: TextInputType.phone,
               initialCountryCode: 'PK',
               decoration: InputDecoration(
@@ -44,7 +41,7 @@ class CustomInputField extends StatelessWidget with InputValidationMixin {
                 ),
               ),
               onChanged: (phone) {
-                log(phone.completeNumber);
+                controller.text = phone.completeNumber;
               },
             )
           : TextFormField(

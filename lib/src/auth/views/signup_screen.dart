@@ -7,7 +7,9 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:online_reservation_app/src/auth/auth_controller.dart';
+import 'package:online_reservation_app/src/home/home_screen.dart';
 import 'package:online_reservation_app/utils/constants.dart';
+import 'package:online_reservation_app/utils/display_toast_message.dart';
 import 'package:online_reservation_app/widgets/custom_async_btn.dart';
 import 'package:online_reservation_app/widgets/custom_input_field.dart';
 
@@ -28,7 +30,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _mobileNoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
 
@@ -115,11 +116,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           prefixIcon: const Icon(Icons.email),
                         ),
                         const SizedBox(height: 10),
-                        CustomInputField(
-                          hintText: 'Mobile No',
-                          controller: _mobileNoController,
-                          keyboardType: TextInputType.phone,
-                        ),
+
+                        // const SizedBox(height: 10),
+                        // CustomInputField(
+                        //   hintText: 'Mobile No',
+                        //   controller: _mobileNoController,
+                        //   keyboardType: TextInputType.phone,
+                        // ),
                         _buildGenderView(),
                         const SizedBox(height: 10),
                         CustomInputField(
@@ -134,27 +137,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: CustomAsyncBtn(
                             btnTxt: 'Register',
                             onPress: () async {
-                              // if (_image != null) {
-                              //   if (_formKey.currentState!.validate()) {
-                              //     _formKey.currentState!.save();
-                              //     FocusScopeNode currentFocus = FocusScope.of(context);
-                              //     if (!currentFocus.hasPrimaryFocus) {
-                              //       currentFocus.unfocus();
-                              //     }
-                              //     await authController.handleSignUp(
-                              //       name: _nameController.text,
-                              //       mobileNo: _mobileNoController.text,
-                              //       password: _pwController.text,
-                              //       profileImage: _image,
-                              //     );
-                              //   }
-                              // } else {
-                              //   Fluttertoast.showToast(
-                              //     msg: "Upload Image",
-                              //     textColor: Colors.white,
-                              //     backgroundColor: Colors.black87,
-                              //   );
-                              // }
+                              if (_image != null) {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  FocusScopeNode currentFocus = FocusScope.of(context);
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+                                  bool isAuth = await authController.handleSignUp(
+                                    fname: _nameController.text,
+                                    email: _emailController.text,
+                                    mobileNo: Get.arguments['mobileNo'],
+                                    gender: _gender!,
+                                    password: _pwController.text,
+                                  );
+                                  if (isAuth) {
+                                    Get.offAllNamed(HomeScreen.routeName);
+                                  }
+                                }
+                              } else {
+                                displayToastMessage('Upload Image');
+                              }
                             },
                           ),
                         ),
