@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "852757286752",
+    "project_id": "online-reservation-1d341",
+    "storage_bucket": "online-reservation-1d341.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852757286752:android:f1cc7b1e7619eb9ba31805",
+        "android_client_info": {
+          "package_name": "com.restncode.online_reservation_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852757286752-i9ddfa14hh9s75b3bjp7j329icc1ade5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWaNBWOtOFnuE4_xavgIM15ejNKConIaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852757286752-i9ddfa14hh9s75b3bjp7j329icc1ade5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
