@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:online_reservation_app/src/auth/views/login_screen.dart';
 import 'package:online_reservation_app/src/localization/language_controller.dart';
 import 'package:online_reservation_app/src/localization/localization.dart';
 import 'package:online_reservation_app/src/main_binding.dart';
+import 'package:online_reservation_app/src/tab_screen.dart';
 import 'package:online_reservation_app/utils/app_theme.dart';
 import 'package:online_reservation_app/utils/routes.dart';
 
@@ -39,9 +41,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightThemeData,
         initialBinding: MainBinding(),
-        // initialRoute:
-        //     GetStorage().read('user') == null ? LogInScreen.routeName : DashboardScreen.routeName,
-        initialRoute: LogInScreen.routeName,
+        initialRoute:
+            FirebaseAuth.instance.currentUser == null ? LogInScreen.routeName : TabScreen.routeName,
         getPages: routes,
       );
 }

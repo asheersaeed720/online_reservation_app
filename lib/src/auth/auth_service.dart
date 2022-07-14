@@ -8,6 +8,7 @@ import 'package:online_reservation_app/utils/firebase_collections.dart';
 
 class AuthService extends GetConnect {
   Future<UserCredential?> signUpUser(
+    User user,
     String fullName,
     String email,
     String mobileNo,
@@ -20,15 +21,17 @@ class AuthService extends GetConnect {
         password: password,
       );
       Map<String, dynamic> data = {
-        "uid": userCredential.user!.uid,
+        "uid": user.uid,
         "full_name": fullName,
-        "mobile_no": mobileNo,
         "email": email,
+        "mobile_no": mobileNo,
         "gender": gender.name,
+        "password": password,
       };
       if (userCredential.user != null) {
-        await usersCollection.doc(userCredential.user!.uid).set(data);
+        await usersCollection.doc(user.uid).set(data);
         userCredential.user?.updateDisplayName(fullName);
+        userCredential.user?.updateEmail(email);
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -43,14 +46,15 @@ class AuthService extends GetConnect {
     return null;
   }
 
-  Future<UserCredential?> logInUser(String email, String password) async {
+  Future<UserCredential?> logInUser(String fullName, String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if (!userCredential.user!.emailVerified) {
-        // await userCredential.user!.sendEmailVerification();
+      if (userCredential.user != null) {
+        userCredential.user?.updateDisplayName(fullName);
+        userCredential.user?.updateEmail(email);
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {

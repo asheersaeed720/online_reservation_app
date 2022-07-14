@@ -7,7 +7,6 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:online_reservation_app/src/auth/auth_controller.dart';
-import 'package:online_reservation_app/src/home/home_screen.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 import 'package:online_reservation_app/utils/display_toast_message.dart';
 import 'package:online_reservation_app/widgets/custom_async_btn.dart';
@@ -129,7 +128,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: 'Password',
                           controller: _pwController,
                           keyboardType: TextInputType.visiblePassword,
+                          obscureText: authController.obscureText,
                           prefixIcon: const Icon(Icons.lock),
+                          suffixIcon: authController.obscureText
+                              ? InkWell(
+                                  onTap: () {
+                                    authController.obscureText = !authController.obscureText;
+                                    authController.update();
+                                  },
+                                  child: const Icon(Icons.visibility),
+                                )
+                              : InkWell(
+                                  onTap: () {
+                                    authController.obscureText = !authController.obscureText;
+                                    authController.update();
+                                  },
+                                  child: const Icon(Icons.visibility_off),
+                                ),
                         ),
                         const SizedBox(height: 16.0),
                         Container(
@@ -144,16 +159,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (!currentFocus.hasPrimaryFocus) {
                                     currentFocus.unfocus();
                                   }
-                                  bool isAuth = await authController.handleSignUp(
+                                  await authController.handleSignUp(
+                                    user: Get.arguments['user'],
                                     fname: _nameController.text,
                                     email: _emailController.text,
                                     mobileNo: Get.arguments['mobileNo'],
                                     gender: _gender!,
                                     password: _pwController.text,
                                   );
-                                  if (isAuth) {
-                                    Get.offAllNamed(HomeScreen.routeName);
-                                  }
                                 }
                               } else {
                                 displayToastMessage('Upload Image');

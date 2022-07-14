@@ -33,16 +33,21 @@ dependencies:
   dio: ^4.0.6
   path: ^1.8.1
   intl: ^0.17.0
+  encrypt: ^5.0.1
+  timeago: ^3.2.2
   get_storage: ^2.0.3
   fluttertoast: ^8.0.9
+  url_launcher: ^6.1.5
   #! FIREBASE PACKAGES START
   firebase_auth: ^3.4.1
   firebase_core: ^1.19.1
   cloud_firestore: ^3.2.1
   #! FIREBASE PACKAGES END
   image_picker: ^0.8.5+3
+  auto_size_text: ^3.0.0
   intl_phone_field: ^3.1.0
   connectivity_plus: ^2.3.5
+  flutter_typeahead: ^4.0.0
   flutter_rating_bar: ^4.0.1
   google_maps_flutter: ^2.1.8
   pin_input_text_field: ^4.1.2

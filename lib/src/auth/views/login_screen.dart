@@ -1,14 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get.dart';
 import 'package:online_reservation_app/src/auth/auth_controller.dart';
 import 'package:online_reservation_app/src/localization/language_controller.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 import 'package:online_reservation_app/widgets/custom_async_btn.dart';
 import 'package:online_reservation_app/widgets/custom_input_field.dart';
-import 'package:online_reservation_app/widgets/loading_overlay.dart';
 
 class LogInScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -119,10 +117,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               if (!currentFocus.hasPrimaryFocus) {
                                 currentFocus.unfocus();
                               }
-                              loadingOverlay(context);
-                              await _authController.sendOtp(_mobileNoController.text);
-                              await Future.delayed(const Duration(seconds: 1));
-                              Loader.hide();
+                              await _authController.sendOtp(context, _mobileNoController.text);
                             }
                           },
                         ),

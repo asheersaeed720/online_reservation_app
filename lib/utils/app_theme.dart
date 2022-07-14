@@ -10,6 +10,16 @@ final lightThemeData = ThemeData(
   errorColor: Colors.red[800],
   visualDensity: VisualDensity.adaptivePlatformDensity,
   fontFamily: fontName,
+  appBarTheme: const AppBarTheme(
+    titleTextStyle: TextStyle(
+      color: Colors.black87,
+      fontSize: 16.0,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.bold,
+    ),
+    elevation: 0,
+    backgroundColor: Colors.white,
+  ),
 );
 
 Map<int, Color> color = const {
