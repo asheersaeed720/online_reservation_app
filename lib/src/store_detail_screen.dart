@@ -64,17 +64,23 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             style: kBodyStyle.copyWith(fontSize: 18.0),
           ),
           const SizedBox(height: 6.0),
-          RatingBar.builder(
-            initialRating: 4.0,
-            itemSize: 18.0,
-            minRating: 1,
-            direction: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (context, _) => const Icon(
-              Icons.star,
-              color: Colors.amber,
-            ),
-            onRatingUpdate: (rating) {},
+          Row(
+            children: [
+              RatingBar.builder(
+                initialRating: 4.0,
+                itemSize: 18.0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {},
+              ),
+              const SizedBox(width: 8.0),
+              const Text('(3)')
+            ],
           ),
           const SizedBox(height: 10.0),
           Image.asset('assets/images/divider.jpg', width: 100.0),

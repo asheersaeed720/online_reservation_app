@@ -21,16 +21,16 @@ class HomeScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: InkWell(
+            child: GestureDetector(
               onTap: () => Get.toNamed(SearchScreen.routeName),
-              child: const Icon(Icons.search),
+              child: Icon(Icons.search, color: Colors.grey.shade700),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18.0),
-            child: InkWell(
+            child: GestureDetector(
               onTap: () {},
-              child: const Icon(Icons.map),
+              child: Icon(Icons.map, color: Colors.grey.shade700),
             ),
           ),
         ],

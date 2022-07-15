@@ -26,18 +26,18 @@ class TabScreen extends StatelessWidget {
           body: widgetOptions.elementAt(tabController.selectedIndex),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+                icon: const Icon(Icons.home),
+                label: 'home'.tr,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.date_range_rounded),
-                label: 'Reservations',
+                icon: const Icon(Icons.date_range_rounded),
+                label: 'reservation'.tr,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Account',
+                icon: const Icon(Icons.account_circle),
+                label: 'account'.tr,
               ),
             ],
             currentIndex: tabController.selectedIndex,

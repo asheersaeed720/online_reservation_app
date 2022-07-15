@@ -86,7 +86,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                       Center(
                         child: Text(
-                          'Login/Registration',
+                          'login/registration'.tr,
                           style: kTitleStyle,
                         ),
                       ),
@@ -94,14 +94,14 @@ class _LogInScreenState extends State<LogInScreen> {
                       Container(
                         margin: const EdgeInsets.only(left: 20, right: 20),
                         padding: const EdgeInsets.only(left: 30, right: 20),
-                        child: const Text(
-                          'Enter your mobile',
+                        child: Text(
+                          'enter_your_mobile'.tr,
                           textAlign: TextAlign.center,
                         ),
                       ),
                       const SizedBox(height: 40.0),
                       CustomInputField(
-                        hintText: 'Mobile No',
+                        hintText: 'mobile_no'.tr,
                         controller: _mobileNoController,
                         keyboardType: TextInputType.phone,
                       ),

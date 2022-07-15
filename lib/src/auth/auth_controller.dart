@@ -66,15 +66,19 @@ class AuthController extends NetworkManager {
     );
   }
 
-  Future<void> verifyMobileNo({
+  Future<void> verifyMobileNo(
+    BuildContext context, {
     required String verificationId,
     required String smsCode,
     required String mobileNo,
   }) async {
+    loadingOverlay(context);
+
     AuthCredential credential = PhoneAuthProvider.credential(
       verificationId: verificationId,
       smsCode: smsCode,
     );
+
     await FirebaseAuth.instance.signInWithCredential(credential).then((res) async {
       log('verification completed: $res');
 
@@ -82,6 +86,7 @@ class AuthController extends NetworkManager {
         (documentSnapshot) async {
           log('documentSnapshot ${documentSnapshot.data()}');
           if (documentSnapshot.data() == null) {
+            Loader.hide();
             Get.toNamed(
               SignUpScreen.routeName,
               arguments: {
@@ -94,11 +99,15 @@ class AuthController extends NetworkManager {
               fullname: documentSnapshot.get('full_name'),
               email: documentSnapshot.get('email'),
               password: documentSnapshot.get('password'),
-            );
+            ).catchError((_) {
+              Loader.hide();
+            });
+            Loader.hide();
           }
         },
       );
     }).catchError((e) {
+      Loader.hide();
       displayToastMessage('Invalid Code');
     });
   }

@@ -65,11 +65,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  'Phone Number Verification',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0),
+                  'phone_number_verification'.tr,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -77,12 +77,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
                 child: RichText(
                   text: TextSpan(
-                      text: "Enter the code sent to ",
+                      text: "enter_the_code_sent_to".tr,
                       children: [
                         TextSpan(
-                            text: widget.phoneNumber,
-                            style: const TextStyle(
-                                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15)),
+                          text: widget.phoneNumber,
+                          style: const TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
                       ],
                       style: const TextStyle(color: Colors.black54, fontSize: 15)),
                   textAlign: TextAlign.center,
@@ -120,7 +121,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: CustomAsyncBtn(
-                  btnTxt: 'Verify',
+                  btnTxt: 'verify'.tr,
                   onPress: () async {
                     if (currentText.length != 6) {
                       setState(() {
@@ -128,6 +129,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       });
                     } else {
                       await authController.verifyMobileNo(
+                        context,
                         verificationId: widget.verificationId,
                         smsCode: currentText,
                         mobileNo: widget.phoneNumber,

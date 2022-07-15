@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:online_reservation_app/src/account/edit_account_screen.dart';
 import 'package:online_reservation_app/src/auth/auth_controller.dart';
+import 'package:online_reservation_app/src/localization/language_controller.dart';
 import 'package:online_reservation_app/utils/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UserAccountScreen extends StatelessWidget {
   static const String routeName = '/user-account';
@@ -16,7 +17,7 @@ class UserAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Account'),
+        title: Text('account'.tr),
         iconTheme: const IconThemeData(color: Colors.black87),
       ),
       body: Padding(
@@ -27,7 +28,8 @@ class UserAccountScreen extends StatelessWidget {
             const SizedBox(height: 12.0),
             _buildRateUsView(),
             const SizedBox(height: 12.0),
-            _buildNotificationView(),
+            // _buildNotificationView(),
+            _buildLanguageView(),
             const SizedBox(height: 12.0),
             _buildPrivacyView(),
             const SizedBox(height: 12.0),
@@ -52,7 +54,7 @@ class UserAccountScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Logout',
+                      'logout'.tr,
                       style: kBodyStyle.copyWith(color: kPrimaryColor),
                     ),
                     const SizedBox(width: 8.0),
@@ -83,6 +85,9 @@ class UserAccountScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: ListTile(
+        onTap: () {
+          Get.toNamed(EditAccountScreen.routeName);
+        },
         leading: Container(
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -114,6 +119,23 @@ class UserAccountScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildRateUsView() {
+    return ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.0),
+          color: Colors.green.shade100,
+        ),
+        child: const Icon(Icons.rate_review, color: Colors.green),
+      ),
+      title: Text(
+        'rate_us'.tr,
+        style: kBodyStyle,
+      ),
+    );
+  }
+
   Widget _buildNotificationView() {
     return ListTile(
       leading: Container(
@@ -137,10 +159,64 @@ class UserAccountScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildLanguageView() {
+    return ListTile(
+      onTap: () async {
+        // await launch('https://achadvertising.com/privacy-policy/');
+      },
+      leading: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.0),
+          color: Colors.blueGrey.shade100,
+        ),
+        child: const Icon(Icons.language, color: Colors.blueGrey),
+      ),
+      title: Text(
+        'language'.tr,
+        style: kBodyStyle,
+      ),
+      trailing: GetBuilder<LanguageController>(
+        builder: (langController) => ToggleButtons(
+          constraints: const BoxConstraints(
+            minHeight: 38.0,
+            minWidth: 48.0,
+          ),
+          borderRadius: BorderRadius.circular(kBorderRadius),
+          onPressed: (int index) {
+            if (index == 0) {
+              langController.toggleLanguage[index] = true;
+              langController.toggleLanguage[1] = false;
+              langController.changeLanguage(
+                language: 'English',
+                languageCode: 'en',
+                countryCode: 'US',
+              );
+            } else if (index == 1) {
+              langController.toggleLanguage[index] = true;
+              langController.toggleLanguage[0] = false;
+              langController.changeLanguage(
+                language: 'Arabic',
+                languageCode: 'ar',
+                countryCode: 'SA',
+              );
+            }
+            langController.update();
+          },
+          isSelected: langController.toggleLanguage,
+          children: const <Widget>[
+            Text('Eng'),
+            Text('Ar'),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildPrivacyView() {
     return ListTile(
       onTap: () async {
-        await launch('https://achadvertising.com/privacy-policy/');
+        // await launch('https://achadvertising.com/privacy-policy/');
       },
       leading: Container(
         padding: const EdgeInsets.all(8.0),
@@ -151,7 +227,7 @@ class UserAccountScreen extends StatelessWidget {
         child: const Icon(Icons.privacy_tip, color: Colors.orange),
       ),
       title: Text(
-        'Privacy Policy',
+        'privacy_policy'.tr,
         style: kBodyStyle,
       ),
     );
@@ -159,12 +235,8 @@ class UserAccountScreen extends StatelessWidget {
 
   Widget _buildTermsView() {
     return ListTile(
-      // onTap: () => Get.toNamed(WebViewScreen.routeName, arguments: {
-      //   'title': 'Terms & Conditions',
-      //   'url': 'https://achadvertising.com/terms-and-conditions/',
-      // }),
       onTap: () async {
-        await launch('https://achadvertising.com/terms-and-conditions/');
+        // await launch('https://achadvertising.com/terms-and-conditions/');
       },
       leading: Container(
         padding: const EdgeInsets.all(8.0),
@@ -175,24 +247,7 @@ class UserAccountScreen extends StatelessWidget {
         child: const Icon(Icons.note, color: Colors.purple),
       ),
       title: Text(
-        'Terms & Conditions',
-        style: kBodyStyle,
-      ),
-    );
-  }
-
-  Widget _buildRateUsView() {
-    return ListTile(
-      leading: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.0),
-          color: Colors.green.shade100,
-        ),
-        child: const Icon(Icons.rate_review, color: Colors.green),
-      ),
-      title: Text(
-        'Rate Us',
+        'terms&conditions'.tr,
         style: kBodyStyle,
       ),
     );

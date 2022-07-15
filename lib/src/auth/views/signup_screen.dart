@@ -102,14 +102,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _buildProfilePicView(),
                         const SizedBox(height: 32.0),
                         CustomInputField(
-                          hintText: 'Full Name',
+                          hintText: 'full_name'.tr,
                           controller: _nameController,
                           keyboardType: TextInputType.name,
                           prefixIcon: const Icon(Icons.person),
                         ),
                         const SizedBox(height: 10),
                         CustomInputField(
-                          hintText: 'Email',
+                          hintText: 'email'.tr,
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           prefixIcon: const Icon(Icons.email),
@@ -125,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _buildGenderView(),
                         const SizedBox(height: 10),
                         CustomInputField(
-                          hintText: 'Password',
+                          hintText: 'password'.tr,
                           controller: _pwController,
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: authController.obscureText,
@@ -150,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Container(
                           margin: const EdgeInsets.only(bottom: 30, left: 16, right: 16),
                           child: CustomAsyncBtn(
-                            btnTxt: 'Register',
+                            btnTxt: 'register'.tr,
                             onPress: () async {
                               if (_image != null) {
                                 if (_formKey.currentState!.validate()) {
@@ -238,10 +238,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('Select your gender', style: kBodyStyle),
+          child: Text('select_your_gender'.tr, style: kBodyStyle),
         ),
         RadioListTile<UserGender>(
-          title: const Text('Male'),
+          title: Text('male'.tr),
           value: UserGender.male,
           groupValue: _gender,
           onChanged: (UserGender? value) {
@@ -251,7 +251,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           },
         ),
         RadioListTile<UserGender>(
-          title: const Text('Female'),
+          title: Text('female'.tr),
           value: UserGender.female,
           groupValue: _gender,
           onChanged: (UserGender? value) {
