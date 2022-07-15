@@ -11,7 +11,7 @@ class UserAccountScreen extends StatelessWidget {
 
   const UserAccountScreen({Key? key}) : super(key: key);
 
-  final Color kSecondaryColor = const Color(0xFF253241);
+  // final Color kSecondaryColor = const Color(0xFF253241);
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +78,8 @@ class UserAccountScreen extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            kSecondaryColor.withOpacity(0.9),
-            kSecondaryColor,
+            kPrimaryColor.withOpacity(0.9),
+            kPrimaryColor,
           ],
         ),
         borderRadius: BorderRadius.circular(8.0),
@@ -96,7 +96,7 @@ class UserAccountScreen extends StatelessWidget {
           ),
           child: Icon(
             Icons.person,
-            color: kSecondaryColor,
+            color: kPrimaryColor,
           ),
         ),
         title: Text(
@@ -136,28 +136,28 @@ class UserAccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationView() {
-    return ListTile(
-      leading: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.0),
-          color: Colors.blue.shade100,
-        ),
-        child: const Icon(Icons.notifications, color: Colors.blue),
-      ),
-      title: Text(
-        'Notification',
-        style: kBodyStyle,
-      ),
-      trailing: Switch(
-        value: true,
-        onChanged: (value) {},
-        activeTrackColor: kSecondaryColor.withOpacity(0.8),
-        activeColor: kSecondaryColor,
-      ),
-    );
-  }
+  // Widget _buildNotificationView() {
+  //   return ListTile(
+  //     leading: Container(
+  //       padding: const EdgeInsets.all(8.0),
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(6.0),
+  //         color: Colors.blue.shade100,
+  //       ),
+  //       child: const Icon(Icons.notifications, color: Colors.blue),
+  //     ),
+  //     title: Text(
+  //       'Notification',
+  //       style: kBodyStyle,
+  //     ),
+  //     trailing: Switch(
+  //       value: true,
+  //       onChanged: (value) {},
+  //       activeTrackColor: kSecondaryColor.withOpacity(0.8),
+  //       activeColor: kSecondaryColor,
+  //     ),
+  //   );
+  // }
 
   Widget _buildLanguageView() {
     return ListTile(

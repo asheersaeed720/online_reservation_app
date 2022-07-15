@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:online_reservation_app/utils/constants.dart';
+import 'package:online_reservation_app/widgets/custom_async_btn.dart';
+
+enum FilterOptions {
+  all,
+  lounge,
+  cafe,
+  sweetsAndJuices,
+  enjoyment,
+  restaurants,
+}
 
 void filterBottomSheet(BuildContext context) {
   final _formKey = GlobalKey<FormState>();
 
-  // RangeValues _currentRangeValues = const RangeValues(10000, 100000);
+  FilterOptions? _filterOptions = FilterOptions.all;
 
   showModalBottomSheet(
     shape: const RoundedRectangleBorder(
@@ -56,6 +67,76 @@ void filterBottomSheet(BuildContext context) {
                   ),
                 ),
                 const SizedBox(height: 6.0),
+                RadioListTile<FilterOptions>(
+                  title: const Text('All'),
+                  value: FilterOptions.all,
+                  groupValue: _filterOptions,
+                  onChanged: (FilterOptions? value) {
+                    setState(() {
+                      _filterOptions = value;
+                    });
+                  },
+                ),
+                RadioListTile<FilterOptions>(
+                  title: const Text('Lounge'),
+                  value: FilterOptions.lounge,
+                  groupValue: _filterOptions,
+                  onChanged: (FilterOptions? value) {
+                    setState(() {
+                      _filterOptions = value;
+                    });
+                  },
+                ),
+                RadioListTile<FilterOptions>(
+                  title: const Text('Cafe'),
+                  value: FilterOptions.cafe,
+                  groupValue: _filterOptions,
+                  onChanged: (FilterOptions? value) {
+                    setState(() {
+                      _filterOptions = value;
+                    });
+                  },
+                ),
+                RadioListTile<FilterOptions>(
+                  title: const Text('Sweets and Juices'),
+                  value: FilterOptions.sweetsAndJuices,
+                  groupValue: _filterOptions,
+                  onChanged: (FilterOptions? value) {
+                    setState(() {
+                      _filterOptions = value;
+                    });
+                  },
+                ),
+                RadioListTile<FilterOptions>(
+                  title: const Text('Enjoyment'),
+                  value: FilterOptions.enjoyment,
+                  groupValue: _filterOptions,
+                  onChanged: (FilterOptions? value) {
+                    setState(() {
+                      _filterOptions = value;
+                    });
+                  },
+                ),
+                RadioListTile<FilterOptions>(
+                  title: const Text('Restaurants'),
+                  value: FilterOptions.restaurants,
+                  groupValue: _filterOptions,
+                  onChanged: (FilterOptions? value) {
+                    setState(() {
+                      _filterOptions = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 12.0),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: CustomAsyncBtn(
+                    btnTxt: 'Apply',
+                    onPress: () {
+                      Get.back();
+                    },
+                  ),
+                ),
               ],
             ),
           );

@@ -115,7 +115,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           prefixIcon: const Icon(Icons.email),
                         ),
                         const SizedBox(height: 10),
-
                         // const SizedBox(height: 10),
                         // CustomInputField(
                         //   hintText: 'Mobile No',
