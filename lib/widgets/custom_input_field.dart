@@ -49,14 +49,13 @@ class CustomInputField extends StatelessWidget with InputValidationMixin {
               keyboardType: keyboardType,
               obscureText: obscureText,
               validator: (value) {
-                if (keyboardType == TextInputType.name) {
-                  return validateName(value ?? '');
-                } else if (keyboardType == TextInputType.emailAddress) {
+                if (keyboardType == TextInputType.emailAddress) {
                   return validateEmail(value ?? '');
                 } else if (keyboardType == TextInputType.visiblePassword) {
                   return validatePassword(value ?? '');
+                } else {
+                  return validateName(value ?? '');
                 }
-                return null;
               },
               decoration: InputDecoration(
                 hintText: hintText,

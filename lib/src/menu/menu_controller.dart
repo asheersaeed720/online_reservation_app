@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:online_reservation_app/src/menu_screen/menu.dart';
+import 'package:online_reservation_app/src/menu/menu.dart';
 import 'package:online_reservation_app/src/network_manager.dart';
 import 'package:online_reservation_app/utils/firebase_collections.dart';
 

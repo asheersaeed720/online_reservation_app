@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:online_reservation_app/src/account/user_account_screen.dart';
-import 'package:online_reservation_app/src/reservation/user_reservation_screen.dart';
+import 'package:online_reservation_app/src/reservation/views/user_reservation_screen.dart';
 import 'package:online_reservation_app/src/restaurant/views/restaurant_screen.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 

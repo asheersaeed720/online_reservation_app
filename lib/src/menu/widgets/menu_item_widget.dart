@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:online_reservation_app/src/menu_screen/menu.dart';
+import 'package:get/get.dart';
+import 'package:online_reservation_app/src/cart/cart_controller.dart';
+import 'package:online_reservation_app/src/menu/menu.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 import 'package:online_reservation_app/widgets/cache_img_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class MenuItemWidget extends StatelessWidget {
-  const MenuItemWidget(this.menuId, this.menuItem, {Key? key}) : super(key: key);
+  MenuItemWidget(this.menuId, this.menuItem, {Key? key}) : super(key: key);
 
   final String menuId;
   final MenuModel menuItem;
+
+  final _cartCtrl = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +35,47 @@ class MenuItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Price \$${menuItem.price}", style: kTitleStyle),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(40),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 4,
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.add_shopping_cart_rounded,
-                      // size: 28.0,
-                      color: Colors.white,
-                    ),
+                  GetBuilder<CartController>(
+                    builder: (_) => _cartCtrl.cartItemList.containsKey(menuId)
+                        ? Text(
+                            'Added to cart',
+                            style: kBodyStyle.copyWith(color: Colors.blueGrey),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              _cartCtrl.addToCart(
+                                menuId: menuId,
+                                name: menuItem.name,
+                                price: int.parse(menuItem.price),
+                                serve: menuItem.serve,
+                                menuStatus: menuItem.menuStatus,
+                                category: menuItem.category,
+                                restaurantId: menuItem.restaurantId,
+                                restaurantName: menuItem.restaurantName,
+                                img: menuItem.img,
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius: BorderRadius.circular(40),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 4,
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.add_shopping_cart_rounded,
+                                // size: 28.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                   ),
                   // AutoSizeText(
                   //   menuItem.name,

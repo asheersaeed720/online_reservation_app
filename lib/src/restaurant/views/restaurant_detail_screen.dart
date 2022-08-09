@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:online_reservation_app/src/menu_screen/views/menu_screen.dart';
+import 'package:online_reservation_app/src/menu/views/menu_screen.dart';
 import 'package:online_reservation_app/src/restaurant/restaurant.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 import 'package:online_reservation_app/widgets/cache_img_widget.dart';
