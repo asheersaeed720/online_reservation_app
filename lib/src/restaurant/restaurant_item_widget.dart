@@ -4,11 +4,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:online_reservation_app/src/store_detail_screen.dart';
+import 'package:online_reservation_app/src/restaurant/restaurant.dart';
+import 'package:online_reservation_app/src/restaurant/views/restaurant_detail_screen.dart';
 import 'package:online_reservation_app/widgets/cache_img_widget.dart';
 
-class CarGridItemView extends StatelessWidget {
-  const CarGridItemView({Key? key}) : super(key: key);
+class RetaurantItemWidget extends StatelessWidget {
+  const RetaurantItemWidget(this.restaurantId, this.restaurantItem, {Key? key}) : super(key: key);
+
+  final String restaurantId;
+  final RestaurantModel restaurantItem;
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +24,30 @@ class CarGridItemView extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
-            Get.toNamed(StoreDetailScreen.routeName);
+            Get.toNamed(
+              RestaurantDetailScreen.routeName,
+              arguments: {
+                'restaurantId': restaurantId,
+                'restaurantItem': restaurantItem,
+              },
+            );
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CacheImgWidget(
-                'https://images.unsplash.com/photo-1578916171728-46686eac8d58?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHN0b3JlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+                restaurantItem.imageUrls.first,
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height / 6.0,
+                height: MediaQuery.of(context).size.height / 4.0,
               ),
               const SizedBox(height: 10.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Row(
                   children: [
-                    Image.asset('assets/images/logo.png', width: 50.0),
-                    const SizedBox(width: 10.0),
-                    const AutoSizeText(
-                      'Title here',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+                    AutoSizeText(
+                      restaurantItem.restaurantName,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
@@ -50,9 +58,10 @@ class CarGridItemView extends StatelessWidget {
                           'View Details',
                           style: TextStyle(color: Colors.grey.shade700),
                         ),
+                        const SizedBox(width: 6.0),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
-                          size: 22.0,
+                          size: 18.0,
                           color: Colors.grey.shade700,
                         ),
                       ],
@@ -63,7 +72,7 @@ class CarGridItemView extends StatelessWidget {
               const SizedBox(height: 10.0),
               _buildRatingView(),
               const SizedBox(height: 10.0),
-              _extraDetailsView(),
+              _buildExtraDetailsView(),
               const SizedBox(height: 10.0),
             ],
           ),
@@ -92,7 +101,7 @@ class CarGridItemView extends StatelessWidget {
     );
   }
 
-  Widget _extraDetailsView() {
+  Widget _buildExtraDetailsView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Row(
@@ -101,22 +110,15 @@ class CarGridItemView extends StatelessWidget {
           Wrap(
             spacing: 10.0,
             children: [
-              Icon(Icons.store, color: Colors.grey.shade700),
-              const Text('Open'),
+              Icon(Icons.location_on, color: Colors.grey.shade700),
+              Text(restaurantItem.address),
             ],
           ),
           Wrap(
             spacing: 10.0,
             children: [
-              Icon(Icons.location_city, color: Colors.grey.shade700),
-              const Text('District'),
-            ],
-          ),
-          Wrap(
-            spacing: 10.0,
-            children: [
-              Icon(Icons.route_rounded, color: Colors.grey.shade700),
-              const Text('Distance'),
+              Icon(Icons.access_time, color: Colors.grey.shade700),
+              Text(restaurantItem.workingHours),
             ],
           ),
         ],

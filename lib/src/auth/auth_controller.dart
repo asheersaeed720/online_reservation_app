@@ -82,7 +82,7 @@ class AuthController extends NetworkManager {
     await FirebaseAuth.instance.signInWithCredential(credential).then((res) async {
       log('verification completed: $res');
 
-      usersCollection.doc('${res.user?.uid}').get().then(
+      userCollection.doc('${res.user?.uid}').get().then(
         (documentSnapshot) async {
           log('documentSnapshot ${documentSnapshot.data()}');
           if (documentSnapshot.data() == null) {

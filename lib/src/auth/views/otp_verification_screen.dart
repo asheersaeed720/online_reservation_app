@@ -80,7 +80,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       text: "enter_the_code_sent_to".tr,
                       children: [
                         TextSpan(
-                          text: widget.phoneNumber,
+                          text: ' ${widget.phoneNumber}',
                           style: const TextStyle(
                               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
                         ),

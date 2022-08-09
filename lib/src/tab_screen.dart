@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:online_reservation_app/src/account/user_account_screen.dart';
-import 'package:online_reservation_app/src/home/home_screen.dart';
 import 'package:online_reservation_app/src/reservation/user_reservation_screen.dart';
+import 'package:online_reservation_app/src/restaurant/views/restaurant_screen.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 
 class TabScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class TabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
-      const HomeScreen(),
+      RestaurantScreen(),
       const UserReservationScreen(),
       const UserAccountScreen(),
     ];
@@ -29,7 +29,7 @@ class TabScreen extends StatelessWidget {
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: const Icon(Icons.home),
-                label: 'home'.tr,
+                label: 'restaurant'.tr,
               ),
               BottomNavigationBarItem(
                 icon: const Icon(Icons.date_range_rounded),

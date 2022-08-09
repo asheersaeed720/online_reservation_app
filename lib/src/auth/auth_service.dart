@@ -29,7 +29,7 @@ class AuthService extends GetConnect {
         "password": password,
       };
       if (userCredential.user != null) {
-        await usersCollection.doc(user.uid).set(data);
+        await userCollection.doc(user.uid).set(data);
         userCredential.user?.updateDisplayName(fullName);
         userCredential.user?.updateEmail(email);
       }

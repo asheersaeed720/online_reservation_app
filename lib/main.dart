@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
                 _languageController.userLanguage['country_code'],
               ),
         fallbackLocale: const Locale('en', 'US'),
-        title: 'Night Live',
+        title: 'Online Reservation App',
         debugShowCheckedModeBanner: false,
         theme: lightThemeData,
         initialBinding: MainBinding(),

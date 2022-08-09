@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
+CollectionReference restaurantCollection = FirebaseFirestore.instance.collection('restaurants');
+CollectionReference menuCollection = FirebaseFirestore.instance.collection('menus');
 
 // final Reference imgStorageRef = FirebaseStorage.instance.ref().child(
-//       'uploads/user/ad_post/${DateTime.now().microsecondsSinceEpoch.remainder(1000000)}',
+//       'uploads/restaurants/${DateTime.now().microsecondsSinceEpoch.remainder(1000000)}',
 //     );
