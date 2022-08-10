@@ -23,54 +23,51 @@ class CustomInputField extends StatelessWidget with InputValidationMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 18.0),
-      child: keyboardType == TextInputType.phone
-          ? IntlPhoneField(
-              keyboardType: TextInputType.phone,
-              initialCountryCode: 'PK',
-              decoration: InputDecoration(
-                hintText: hintText,
-                contentPadding: const EdgeInsets.only(left: 12.0, top: 10.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(kBorderRadius),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(kBorderRadius),
-                  borderSide: const BorderSide(width: 1.0, color: Colors.red),
-                ),
+    return keyboardType == TextInputType.phone
+        ? IntlPhoneField(
+            keyboardType: TextInputType.phone,
+            initialCountryCode: 'PK',
+            decoration: InputDecoration(
+              hintText: hintText,
+              contentPadding: const EdgeInsets.only(left: 12.0, top: 10.0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(kBorderRadius),
               ),
-              onChanged: (phone) {
-                controller.text = phone.completeNumber;
-              },
-            )
-          : TextFormField(
-              controller: controller,
-              keyboardType: keyboardType,
-              obscureText: obscureText,
-              validator: (value) {
-                if (keyboardType == TextInputType.emailAddress) {
-                  return validateEmail(value ?? '');
-                } else if (keyboardType == TextInputType.visiblePassword) {
-                  return validatePassword(value ?? '');
-                } else {
-                  return validateName(value ?? '');
-                }
-              },
-              decoration: InputDecoration(
-                hintText: hintText,
-                contentPadding: const EdgeInsets.only(left: 12.0, top: 10.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(kBorderRadius),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(kBorderRadius),
-                  borderSide: const BorderSide(width: 1.0, color: Colors.red),
-                ),
-                prefixIcon: prefixIcon ?? const SizedBox.shrink(),
-                suffixIcon: suffixIcon ?? const SizedBox.shrink(),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(kBorderRadius),
+                borderSide: const BorderSide(width: 1.0, color: Colors.red),
               ),
             ),
-    );
+            onChanged: (phone) {
+              controller.text = phone.completeNumber;
+            },
+          )
+        : TextFormField(
+            controller: controller,
+            keyboardType: keyboardType,
+            obscureText: obscureText,
+            validator: (value) {
+              if (keyboardType == TextInputType.emailAddress) {
+                return validateEmail(value ?? '');
+              } else if (keyboardType == TextInputType.visiblePassword) {
+                return validatePassword(value ?? '');
+              } else {
+                return validateName(value ?? '');
+              }
+            },
+            decoration: InputDecoration(
+              hintText: hintText,
+              contentPadding: const EdgeInsets.only(left: 12.0, top: 10.0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(kBorderRadius),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(kBorderRadius),
+                borderSide: const BorderSide(width: 1.0, color: Colors.red),
+              ),
+              prefixIcon: prefixIcon ?? const SizedBox.shrink(),
+              suffixIcon: suffixIcon ?? const SizedBox.shrink(),
+            ),
+          );
   }
 }

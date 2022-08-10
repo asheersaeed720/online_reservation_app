@@ -45,6 +45,7 @@ dependencies:
   #! FIREBASE PACKAGES END
   image_picker: ^0.8.5+3
   auto_size_text: ^3.0.0
+  dropdown_search: ^5.0.2
   intl_phone_field: ^3.1.0
   connectivity_plus: ^2.3.5
   flutter_typeahead: ^4.0.0

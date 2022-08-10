@@ -248,7 +248,10 @@ class CartScreen extends StatelessWidget {
                       onPressed: () {
                         Get.toNamed(
                           CreateReservationScreen.routeName,
-                          arguments: _cartCtrl.cartItemList.values.toList(),
+                          arguments: {
+                            'cartItemList': _cartCtrl.cartItemList.values.toList(),
+                            'totalAmount': _cartCtrl.totalAmount,
+                          },
                         );
                       },
                       child: Text(
