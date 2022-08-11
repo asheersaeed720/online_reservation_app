@@ -14,7 +14,7 @@ class TabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
       RestaurantScreen(),
-      const UserReservationScreen(),
+      UserReservationScreen(),
       const UserAccountScreen(),
     ];
 

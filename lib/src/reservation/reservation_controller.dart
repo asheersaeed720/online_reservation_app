@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:online_reservation_app/src/network_manager.dart';
 import 'package:online_reservation_app/src/reservation/reservation.dart';
 import 'package:online_reservation_app/src/reservation/views/reservation_congrats_screen.dart';
@@ -10,6 +14,20 @@ import 'package:online_reservation_app/utils/firebase_collections.dart';
 import 'package:online_reservation_app/widgets/loading_overlay.dart';
 
 class ReservationController extends NetworkManager {
+  Timer? timer;
+  List<String> timeSlots = [];
+  String selectedTimeSlot = '';
+
+  @override
+  void onInit() {
+    getTimeSlot();
+    timer = Timer.periodic(
+      const Duration(minutes: 5),
+      (Timer t) => getTimeSlot(),
+    );
+    super.onInit();
+  }
+
   final reservationRef = reservationCollection.withConverter<ReservationModel>(
     fromFirestore: (snapshot, _) => ReservationModel.fromJson(snapshot.data()!),
     toFirestore: (reservation, _) => reservation.toJson(),
@@ -19,6 +37,28 @@ class ReservationController extends NetworkManager {
     return reservationRef.orderBy('created_at', descending: true).snapshots();
   }
 
+  void getTimeSlot() {
+    DateTime now = DateTime.now();
+    DateTime startTime = now.add(const Duration(hours: 2));
+    DateTime endTime = DateTime(now.year, now.month, now.day, 23, 0, 0);
+    Duration step = const Duration(minutes: 60);
+
+    timeSlots = [];
+
+    while (startTime.isBefore(endTime)) {
+      DateTime timeIncrement = startTime.add(step);
+      timeSlots.add(DateFormat.Hm().format(timeIncrement));
+      startTime = timeIncrement;
+    }
+    update();
+    log('$timeSlots');
+  }
+
+  void selectTimeSlot(bool selected, String slot) {
+    selectedTimeSlot = selected ? slot : '';
+    update();
+  }
+
   Future<void> confirmReservation(
     BuildContext context, {
     required String customerName,
@@ -26,7 +66,6 @@ class ReservationController extends NetworkManager {
     required String phoneNumber,
     required String email,
     required String date,
-    required String time,
     required List<Map<String, dynamic>> menuList,
     required double totalAmount,
   }) async {
@@ -40,7 +79,7 @@ class ReservationController extends NetworkManager {
           phoneNumber: phoneNumber,
           email: email,
           date: date,
-          time: time,
+          time: selectedTimeSlot,
           menuList: menuList,
           totalAmount: totalAmount,
           createdAt: Timestamp.now(),
@@ -52,5 +91,11 @@ class ReservationController extends NetworkManager {
     } else {
       customSnackBar('Network error', 'Please try again later');
     }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 }

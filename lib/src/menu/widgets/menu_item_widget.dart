@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:online_reservation_app/src/cart/cart_controller.dart';
 import 'package:online_reservation_app/src/menu/menu.dart';
 import 'package:online_reservation_app/utils/constants.dart';
+import 'package:online_reservation_app/utils/display_toast_message.dart';
 import 'package:online_reservation_app/widgets/cache_img_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -43,17 +44,21 @@ class MenuItemWidget extends StatelessWidget {
                           )
                         : InkWell(
                             onTap: () {
-                              _cartCtrl.addToCart(
-                                menuId: menuId,
-                                name: menuItem.name,
-                                price: int.parse(menuItem.price),
-                                serve: menuItem.serve,
-                                menuStatus: menuItem.menuStatus,
-                                category: menuItem.category,
-                                restaurantId: menuItem.restaurantId,
-                                restaurantName: menuItem.restaurantName,
-                                img: menuItem.img,
-                              );
+                              if (menuItem.menuStatus == 'Available') {
+                                _cartCtrl.addToCart(
+                                  menuId: menuId,
+                                  name: menuItem.name,
+                                  price: int.parse(menuItem.price),
+                                  serve: menuItem.serve,
+                                  menuStatus: menuItem.menuStatus,
+                                  category: menuItem.category,
+                                  restaurantId: menuItem.restaurantId,
+                                  restaurantName: menuItem.restaurantName,
+                                  img: menuItem.img,
+                                );
+                              } else {
+                                displayToastMessage('This menu is unavailable');
+                              }
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8.0),

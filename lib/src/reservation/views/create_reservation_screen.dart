@@ -34,21 +34,14 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
   final TextEditingController _phoneNoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
 
-  DateTime dateTime = DateTime.now();
+  DateTime dateTimeNow = DateTime.now();
 
   @override
   void initState() {
     _yourNameController.text = _authUser?.displayName ?? '';
     _phoneNoController.text = _authUser?.phoneNumber ?? '';
     _emailController.text = _authUser?.email ?? '';
-
-    var formattedDate = DateFormat.Hm().format(dateTime);
-    String parseCurrentTime = '${formattedDate[0]}${formattedDate[1]}:00';
-    log('parseCurrentTime $parseCurrentTime');
-    _timeController.text = parseCurrentTime;
-
     super.initState();
   }
 
@@ -169,7 +162,7 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
 
                 final pickedDate = await datePicker;
                 if (pickedDate != null) {
-                  String currentDate = DateFormat('yyyy-MM-dd').format(dateTime);
+                  String currentDate = DateFormat('yyyy-MM-dd').format(dateTimeNow);
                   String selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
                   DateTime parseCurrentDate = DateTime.parse(currentDate);
                   DateTime parseSelectedDate = DateTime.parse(selectedDate);
@@ -184,132 +177,36 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
               },
             ),
             const SizedBox(height: 18.0),
-            const Text('Select Time'),
+            const Text('Time Slots'),
             const SizedBox(height: 6.0),
-            DropdownButton<String>(
-              value: _timeController.text,
-              onChanged: (String? value) {
-                var formattedDate = DateFormat.Hm().format(dateTime);
-                int parseCurrentTime = int.parse(
-                  '${formattedDate[0]}${formattedDate[1]}${formattedDate[3]}${formattedDate[4]}',
-                );
-                int parseSelectedTime = int.parse(
-                  '${value![0]}${value[1]}${value[3]}${value[4]}',
-                );
-                log('Selection $parseSelectedTime $parseCurrentTime');
-                if (parseSelectedTime != 0000) {
-                  if (parseSelectedTime < parseCurrentTime) {
-                    displayToastMessage("Can't select past time");
-                  } else {
-                    setState(() {
-                      _timeController.text = value;
-                    });
-                  }
-                } else {
-                  setState(() {
-                    _timeController.text = value;
-                  });
-                }
-              },
-              items: <String>[
-                '18:00',
-                '19:00',
-                '20:00',
-                '21:00',
-                '22:00',
-                '23:00',
-                '00:00',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            GetBuilder<ReservationController>(
+              builder: (_) => _reservationCtrl.timeSlots.isEmpty
+                  ? Text(
+                      'Sorry, today there is no time slot available',
+                      style: kBodyStyle.copyWith(color: Colors.red.shade800),
+                    )
+                  : SizedBox(
+                      height: 50.0,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _reservationCtrl.timeSlots.length,
+                        separatorBuilder: (context, _) => const SizedBox(width: 16.0),
+                        itemBuilder: (context, i) {
+                          return ChoiceChip(
+                            backgroundColor: Colors.grey.shade300,
+                            selectedColor: Colors.grey,
+                            label: Text(_reservationCtrl.timeSlots[i], style: kBodyStyle),
+                            selected:
+                                _reservationCtrl.selectedTimeSlot == _reservationCtrl.timeSlots[i],
+                            onSelected: (bool selected) {
+                              _reservationCtrl.selectTimeSlot(
+                                  selected, _reservationCtrl.timeSlots[i]);
+                            },
+                          );
+                        },
+                      ),
+                    ),
             ),
-
-            // DropdownSearch<String>(
-            //   items: const [
-            //     "18:00",
-            //     "20:00",
-            //     "22:00",
-            //     "00:00",
-            //   ],
-            //   onChanged: (value) {
-            //     var formattedDate = DateFormat.Hm().format(dateTime);
-            //     int parseCurrentTime = int.parse(
-            //       '${formattedDate[0]}${formattedDate[1]}${formattedDate[3]}${formattedDate[4]}',
-            //     );
-            //     int parseSelectedTime = int.parse(
-            //       '${value![0]}${value[1]}${value[3]}${value[4]}',
-            //     );
-            //     log('Selection $parseSelectedTime $parseCurrentTime');
-            //     if (parseSelectedTime != 00) {
-            //       if (parseSelectedTime < parseCurrentTime) {
-            //         displayToastMessage("Can't select past time");
-            //       } else {
-            //         _timeController.text = value;
-            //       }
-            //     }
-            //   },
-            //   selectedItem: _timeController.text,
-            //   dropdownDecoratorProps: DropDownDecoratorProps(
-            //     dropdownSearchDecoration: InputDecoration(
-            //       hintText: 'Select Time',
-            //       contentPadding: const EdgeInsets.only(left: 12.0, top: 10.0),
-            //       border: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(kBorderRadius),
-            //       ),
-            //       focusedErrorBorder: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(kBorderRadius),
-            //         borderSide: const BorderSide(width: 1.0, color: Colors.red),
-            //       ),
-            //       prefixIcon: const Icon(Icons.access_time),
-            //     ),
-            //   ),
-            // ),
-            // DateTimeField(
-            //   format: DateFormat("HH:mm"),
-            //   controller: _timeController,
-            //   validator: (value) {
-            //     if (value == null) {
-            //       return 'Required';
-            //     }
-            //     return null;
-            //   },
-            // decoration: InputDecoration(
-            //   hintText: 'Select Time',
-            //   contentPadding: const EdgeInsets.only(left: 12.0, top: 10.0),
-            //   border: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(kBorderRadius),
-            //   ),
-            //   focusedErrorBorder: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(kBorderRadius),
-            //     borderSide: const BorderSide(width: 1.0, color: Colors.red),
-            //   ),
-            //   prefixIcon: const Icon(Icons.access_time),
-            // ),
-            //   onShowPicker: (context, _) async {
-            //     DateTime newTime = dateTime.add(const Duration(hours: 3));
-            //     final time = await showTimePicker(
-            //       context: context,
-            //       initialTime: TimeOfDay.fromDateTime(newTime),
-            //     );
-            //     var formattedTime = DateFormat.Hms().format(newTime);
-            //     log('formattedTime $formattedTime');
-            //     log('asd ${formattedTime[0][1]}');
-            //     // DateTime newFormattedTime = DateTime.parse(DateFormat("HH:mm").format(newTime));
-            //     // DateTime currentFormattedTime =
-            //     //     DateTime.parse(DateFormat("HH:mm").format(dateTime));
-
-            //     // if (newFormattedTime.isBefore(currentFormattedTime)) {
-            //     //   displayToastMessage('early');
-            //     //   return null;
-            //     // } else {
-            //     //   return DateTimeField.convert(time);
-            //     // }
-            //     return null;
-            //   },
-            // ),
             const SizedBox(height: 18.0),
             CustomAsyncBtn(
               btnTxt: 'Confirm Reservation',
@@ -329,17 +226,20 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                     });
                   }
 
-                  await _reservationCtrl.confirmReservation(
-                    context,
-                    customerName: _yourNameController.text,
-                    numberOfPeople: _numberOfPeopleController.text,
-                    phoneNumber: _phoneNoController.text,
-                    email: _emailController.text,
-                    date: _dateController.text,
-                    time: _timeController.text,
-                    menuList: list,
-                    totalAmount: totalAmount,
-                  );
+                  if (_reservationCtrl.selectedTimeSlot.isEmpty) {
+                    displayToastMessage('Please select time slot');
+                  } else {
+                    await _reservationCtrl.confirmReservation(
+                      context,
+                      customerName: _yourNameController.text,
+                      numberOfPeople: _numberOfPeopleController.text,
+                      phoneNumber: _phoneNoController.text,
+                      email: _emailController.text,
+                      date: _dateController.text,
+                      menuList: list,
+                      totalAmount: totalAmount,
+                    );
+                  }
                 }
               },
             ),
