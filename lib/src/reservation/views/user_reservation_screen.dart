@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:online_reservation_app/src/reservation/reservation.dart';
 import 'package:online_reservation_app/src/reservation/reservation_controller.dart';
+import 'package:online_reservation_app/src/reservation/views/reservation_detail_screen.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 import 'package:online_reservation_app/utils/reservation_status.dart';
 import 'package:online_reservation_app/widgets/loading_widget.dart';
@@ -34,7 +35,8 @@ class UserReservationScreen extends StatelessWidget {
               itemCount: reservationList.length,
               separatorBuilder: (context, _) => const SizedBox(height: 10.0),
               itemBuilder: (context, i) {
-                return _buildReservationItemView(context, reservationList[i].data());
+                return _buildReservationItemView(
+                    context, reservationList[i].id, reservationList[i].data());
               },
             );
           }
@@ -44,8 +46,9 @@ class UserReservationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReservationItemView(BuildContext context, ReservationModel reservationList) {
-    final String postedDate = timeago.format(reservationList.createdAt.toDate());
+  Widget _buildReservationItemView(
+      BuildContext context, String reservationId, ReservationModel reservationItem) {
+    final String postedDate = timeago.format(reservationItem.createdAt.toDate());
 
     return Card(
       margin: EdgeInsets.zero,
@@ -54,9 +57,10 @@ class UserReservationScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(6.0),
         ),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(ReservationDetailScreen.routeName, arguments: reservationId);
+          },
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 12.0, left: 12.0, top: 10.0),
@@ -64,30 +68,32 @@ class UserReservationScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(postedDate),
-                    reservationList.status == ReservationStatus.completed
+                    reservationItem.status == ReservationStatus.completed
                         ? Text(
-                            reservationList.status,
+                            reservationItem.status,
                             style: kBodyStyle.copyWith(color: Colors.green),
                           )
                         : Text(
-                            reservationList.status,
+                            reservationItem.status,
                             style: kBodyStyle.copyWith(color: Colors.red.shade800),
                           ),
                   ],
                 ),
               ),
               ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                horizontalTitleGap: 10.0,
                 leading: CircleAvatar(
                   backgroundColor: Colors.orange.shade300,
                   child: Text(
-                    '${reservationList.customerName[0].capitalizeFirst}',
+                    '${reservationItem.customerName[0].capitalizeFirst}',
                     style: kBodyStyle.copyWith(color: kPrimaryColor, fontSize: 20.0),
                   ),
                 ),
-                title: Text(reservationList.customerName, style: kBodyStyle),
-                subtitle: Text(reservationList.phoneNumber),
+                title: Text(reservationItem.customerName, style: kBodyStyle),
+                subtitle: Text(reservationItem.phoneNumber),
                 trailing: Text(
-                  'Amount: ${reservationList.totalAmount}',
+                  'Amount: ${reservationItem.totalAmount}',
                 ),
               ),
               Padding(
@@ -96,11 +102,14 @@ class UserReservationScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.access_time, color: Colors.grey.shade600),
                     const SizedBox(width: 8.0),
-                    Text(reservationList.time),
+                    Text(
+                      '${reservationItem.time}\n${reservationItem.date}',
+                      style: const TextStyle(fontSize: 12.0),
+                    ),
                     const Spacer(),
                     Icon(Icons.people, color: Colors.grey.shade600),
                     const SizedBox(width: 8.0),
-                    Text(reservationList.numberOfPeople),
+                    Text(reservationItem.numberOfPeople),
                     const Spacer(),
                     const Text('View'),
                     const SizedBox(width: 8.0),

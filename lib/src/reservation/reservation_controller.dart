@@ -28,15 +28,6 @@ class ReservationController extends NetworkManager {
     super.onInit();
   }
 
-  final reservationRef = reservationCollection.withConverter<ReservationModel>(
-    fromFirestore: (snapshot, _) => ReservationModel.fromJson(snapshot.data()!),
-    toFirestore: (reservation, _) => reservation.toJson(),
-  );
-
-  Stream<QuerySnapshot<ReservationModel>> getReservation() {
-    return reservationRef.orderBy('created_at', descending: true).snapshots();
-  }
-
   void getTimeSlot() {
     DateTime now = DateTime.now();
     DateTime startTime = now.add(const Duration(hours: 2));
@@ -57,6 +48,19 @@ class ReservationController extends NetworkManager {
   void selectTimeSlot(bool selected, String slot) {
     selectedTimeSlot = selected ? slot : '';
     update();
+  }
+
+  final reservationRef = reservationCollection.withConverter<ReservationModel>(
+    fromFirestore: (snapshot, _) => ReservationModel.fromJson(snapshot.data()!),
+    toFirestore: (reservation, _) => reservation.toJson(),
+  );
+
+  Stream<QuerySnapshot<ReservationModel>> getReservation() {
+    return reservationRef.orderBy('created_at', descending: true).snapshots();
+  }
+
+  Stream<DocumentSnapshot<ReservationModel>> getUserReservationDetails(String reservationId) {
+    return reservationRef.doc(reservationId).snapshots();
   }
 
   Future<void> confirmReservation(
@@ -87,7 +91,8 @@ class ReservationController extends NetworkManager {
       );
       update();
       Loader.hide();
-      Get.offAllNamed(ReservationCongratsScreen.routeName);
+      log('reservationRef ${reservationRef.doc().id}');
+      Get.offAllNamed(ReservationCongratsScreen.routeName, arguments: reservationRef.doc().id);
     } else {
       customSnackBar('Network error', 'Please try again later');
     }

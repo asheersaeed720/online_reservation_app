@@ -6,6 +6,7 @@ import 'package:online_reservation_app/src/cart/cart_screen.dart';
 import 'package:online_reservation_app/src/menu/views/menu_screen.dart';
 import 'package:online_reservation_app/src/reservation/views/create_reservation_screen.dart';
 import 'package:online_reservation_app/src/reservation/views/reservation_congrats_screen.dart';
+import 'package:online_reservation_app/src/reservation/views/reservation_detail_screen.dart';
 import 'package:online_reservation_app/src/restaurant/views/restaurant_detail_screen.dart';
 import 'package:online_reservation_app/src/search/views/search_screen.dart';
 import 'package:online_reservation_app/src/tab_screen.dart';
@@ -50,5 +51,9 @@ final List<GetPage<dynamic>> routes = [
   GetPage(
     name: ReservationCongratsScreen.routeName,
     page: () => const ReservationCongratsScreen(),
+  ),
+  GetPage(
+    name: ReservationDetailScreen.routeName,
+    page: () => ReservationDetailScreen(),
   ),
 ];

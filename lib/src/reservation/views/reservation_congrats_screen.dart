@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:online_reservation_app/src/reservation/views/reservation_detail_screen.dart';
 import 'package:online_reservation_app/src/tab_screen.dart';
 import 'package:online_reservation_app/utils/constants.dart';
 import 'package:online_reservation_app/widgets/custom_async_btn.dart';
@@ -13,6 +14,8 @@ class ReservationCongratsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String reservationId = Get.arguments as String;
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -39,7 +42,12 @@ class ReservationCongratsScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 42.0,
               btnTxt: 'View Details',
-              onPress: () {},
+              onPress: () {
+                final tabScreenCtrl = Get.put(TabScreenController());
+                Get.offAndToNamed(TabScreen.routeName);
+                tabScreenCtrl.onItemTapped(1);
+                Get.toNamed(ReservationDetailScreen.routeName, arguments: reservationId);
+              },
             ),
             const SizedBox(height: 10.0),
             SizedBox(
