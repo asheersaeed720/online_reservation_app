@@ -241,7 +241,7 @@ class ReservationDetailScreen extends StatelessWidget {
     return StreamBuilder<DocumentSnapshot<RestaurantModel>>(
       stream: _restaurantCtrl.getRestaurantsDetails(restaurantId),
       builder: (BuildContext context, snapshot) {
-        if (!snapshot.hasError) {
+        if (snapshot.hasData) {
           DocumentSnapshot<RestaurantModel> restaurantDetails =
               snapshot.data as DocumentSnapshot<RestaurantModel>;
 
