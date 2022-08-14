@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:get/get.dart';
@@ -63,7 +64,10 @@ class ReservationController extends NetworkManager {
   );
 
   Stream<QuerySnapshot<ReservationModel>> getReservation() {
-    return reservationRef.orderBy('created_at', descending: true).snapshots();
+    return reservationRef
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+        .orderBy('created_at', descending: true)
+        .snapshots();
   }
 
   Stream<DocumentSnapshot<ReservationModel>> getUserReservationDetails(String reservationId) {
@@ -83,9 +87,9 @@ class ReservationController extends NetworkManager {
   }) async {
     if (connectionType != 0) {
       loadingOverlay(context);
-      //! also add status & total amount
       await reservationRef.add(
         ReservationModel(
+          uid: FirebaseAuth.instance.currentUser?.uid ?? '',
           customerName: customerName,
           numberOfPeople: numberOfPeople,
           phoneNumber: phoneNumber,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,13 +32,22 @@ class UserReservationScreen extends StatelessWidget {
           if (snapshot.hasData) {
             List<QueryDocumentSnapshot<ReservationModel>> reservationList =
                 snapshot.data!.docs as List<QueryDocumentSnapshot<ReservationModel>>;
+            log('reservationList $reservationList');
+            if (reservationList.isEmpty) {
+              return Center(
+                child: Text('No Reservation found', style: kBodyStyle),
+              );
+            }
             return ListView.separated(
               padding: const EdgeInsets.all(10.0),
               itemCount: reservationList.length,
               separatorBuilder: (context, _) => const SizedBox(height: 10.0),
               itemBuilder: (context, i) {
                 return _buildReservationItemView(
-                    context, reservationList[i].id, reservationList[i].data());
+                  context,
+                  reservationList[i].id,
+                  reservationList[i].data(),
+                );
               },
             );
           }

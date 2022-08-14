@@ -92,7 +92,7 @@ class ReservationDetailScreen extends StatelessWidget {
           children: [
             RichText(
               text: TextSpan(
-                text: 'Reservation No #: ',
+                text: 'Reservation Id: ',
                 style: kBodyStyle.copyWith(fontWeight: FontWeight.w500),
                 children: <TextSpan>[
                   TextSpan(

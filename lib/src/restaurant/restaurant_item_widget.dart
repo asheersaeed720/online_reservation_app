@@ -46,7 +46,7 @@ class RetaurantItemWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     AutoSizeText(
-                      restaurantItem.restaurantName,
+                      restaurantItem.restaurantName.capitalizeFirst ?? '',
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

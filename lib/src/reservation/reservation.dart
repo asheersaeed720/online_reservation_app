@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:online_reservation_app/utils/reservation_status.dart';
 
 class ReservationModel {
+  final String uid;
   final String customerName;
   final String numberOfPeople;
   final String phoneNumber;
@@ -15,6 +16,7 @@ class ReservationModel {
   final Timestamp createdAt;
 
   ReservationModel({
+    required this.uid,
     required this.customerName,
     required this.numberOfPeople,
     required this.phoneNumber,
@@ -30,6 +32,7 @@ class ReservationModel {
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     return ReservationModel(
+      uid: json['uid'],
       customerName: json['customer_name'],
       numberOfPeople: json['number_of_people'],
       phoneNumber: json['phone_number'],
@@ -46,6 +49,7 @@ class ReservationModel {
 
   Map<String, Object?> toJson() {
     return {
+      'uid': uid,
       'customer_name': customerName,
       'number_of_people': numberOfPeople,
       'phone_number': phoneNumber,
