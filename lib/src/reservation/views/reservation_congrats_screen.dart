@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:online_reservation_app/src/reservation/views/reservation_detail_screen.dart';
 import 'package:online_reservation_app/src/tab_screen.dart';
 import 'package:online_reservation_app/utils/constants.dart';
-import 'package:online_reservation_app/widgets/custom_async_btn.dart';
 
 class ReservationCongratsScreen extends StatelessWidget {
   static const String routeName = '/reservation-congrats';
@@ -37,18 +35,19 @@ class ReservationCongratsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 18.0),
-            CustomAsyncBtn(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 42.0,
-              btnTxt: 'View Details',
-              onPress: () {
-                final tabScreenCtrl = Get.put(TabScreenController());
-                Get.offAndToNamed(TabScreen.routeName);
-                tabScreenCtrl.onItemTapped(1);
-                Get.toNamed(ReservationDetailScreen.routeName, arguments: reservationId);
-              },
-            ),
+            // const SizedBox(height: 18.0),
+            // CustomAsyncBtn(
+            //   width: MediaQuery.of(context).size.width * 0.8,
+            //   height: 42.0,
+            //   btnTxt: 'View Details',
+            //   onPress: () async {
+            //     final tabScreenCtrl = Get.put(TabScreenController());
+            //     Get.offAndToNamed(TabScreen.routeName);
+            //     tabScreenCtrl.onItemTapped(1);
+            //     await Future.delayed(const Duration(milliseconds: 800));
+            //     Get.toNamed(ReservationDetailScreen.routeName, arguments: reservationId);
+            //   },
+            // ),
             const SizedBox(height: 10.0),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,

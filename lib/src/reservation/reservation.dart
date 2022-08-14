@@ -9,7 +9,8 @@ class ReservationModel {
   final String date;
   final String time;
   final String status;
-  final List<dynamic> menuList; //? {menu_id:asdsd, qty:2}
+  final String restaurantId;
+  final List<dynamic> menuList; //? {menu_id, menuName, qty}
   final double totalAmount;
   final Timestamp createdAt;
 
@@ -21,6 +22,7 @@ class ReservationModel {
     required this.date,
     required this.time,
     this.status = ReservationStatus.pending,
+    required this.restaurantId,
     required this.menuList,
     required this.totalAmount,
     required this.createdAt,
@@ -35,6 +37,7 @@ class ReservationModel {
       date: json['date'],
       time: json['time'],
       status: json['status'],
+      restaurantId: json['restaurant_id'],
       menuList: json['menu_list'],
       totalAmount: json['total_amount'],
       createdAt: json['created_at'],
@@ -50,6 +53,7 @@ class ReservationModel {
       'date': date,
       'time': time,
       'status': status,
+      'restaurant_id': restaurantId,
       'menu_list': menuList,
       'total_amount': totalAmount,
       'created_at': createdAt,

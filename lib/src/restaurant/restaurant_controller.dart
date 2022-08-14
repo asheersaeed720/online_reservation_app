@@ -12,4 +12,8 @@ class RestaurantController extends NetworkManager {
   Stream<QuerySnapshot<RestaurantModel>> getRestaurants() {
     return restaurantRef.orderBy('created_at', descending: true).snapshots();
   }
+
+  Stream<DocumentSnapshot<RestaurantModel>> getRestaurantsDetails(String restaurantId) {
+    return restaurantRef.doc(restaurantId).snapshots();
+  }
 }

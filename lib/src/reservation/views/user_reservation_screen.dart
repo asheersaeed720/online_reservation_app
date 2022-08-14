@@ -68,15 +68,21 @@ class UserReservationScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(postedDate),
-                    reservationItem.status == ReservationStatus.completed
-                        ? Text(
-                            reservationItem.status,
-                            style: kBodyStyle.copyWith(color: Colors.green),
-                          )
-                        : Text(
-                            reservationItem.status,
-                            style: kBodyStyle.copyWith(color: Colors.red.shade800),
-                          ),
+                    if (reservationItem.status == ReservationStatus.completed)
+                      Text(
+                        reservationItem.status,
+                        style: kBodyStyle.copyWith(color: Colors.green),
+                      ),
+                    if (reservationItem.status == ReservationStatus.pending)
+                      Text(
+                        reservationItem.status,
+                        style: kBodyStyle.copyWith(color: Colors.blue),
+                      ),
+                    if (reservationItem.status == ReservationStatus.cancel)
+                      Text(
+                        reservationItem.status,
+                        style: kBodyStyle.copyWith(color: Colors.red.shade700),
+                      ),
                   ],
                 ),
               ),

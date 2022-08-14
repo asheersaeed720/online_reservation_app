@@ -47,6 +47,7 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log(_reservationCtrl.timePeriod);
     final args = Get.arguments as Map<String, dynamic>;
     final List<CartModel> cartItemList = args['cartItemList'];
     final double totalAmount = args['totalAmount'];
@@ -180,32 +181,37 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
             const Text('Time Slots'),
             const SizedBox(height: 6.0),
             GetBuilder<ReservationController>(
-              builder: (_) => _reservationCtrl.timeSlots.isEmpty
+              builder: (_) => _reservationCtrl.timePeriod.contains('AM')
                   ? Text(
-                      'Sorry, today there is no time slot available',
+                      'Sorry, slots are not available at this time',
                       style: kBodyStyle.copyWith(color: Colors.red.shade800),
                     )
-                  : SizedBox(
-                      height: 50.0,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _reservationCtrl.timeSlots.length,
-                        separatorBuilder: (context, _) => const SizedBox(width: 16.0),
-                        itemBuilder: (context, i) {
-                          return ChoiceChip(
-                            backgroundColor: Colors.grey.shade300,
-                            selectedColor: Colors.grey,
-                            label: Text(_reservationCtrl.timeSlots[i], style: kBodyStyle),
-                            selected:
-                                _reservationCtrl.selectedTimeSlot == _reservationCtrl.timeSlots[i],
-                            onSelected: (bool selected) {
-                              _reservationCtrl.selectTimeSlot(
-                                  selected, _reservationCtrl.timeSlots[i]);
+                  : _reservationCtrl.timeSlots.isEmpty
+                      ? Text(
+                          'Sorry, today there is no time slot available',
+                          style: kBodyStyle.copyWith(color: Colors.red.shade800),
+                        )
+                      : SizedBox(
+                          height: 50.0,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _reservationCtrl.timeSlots.length,
+                            separatorBuilder: (context, _) => const SizedBox(width: 16.0),
+                            itemBuilder: (context, i) {
+                              return ChoiceChip(
+                                backgroundColor: Colors.grey.shade300,
+                                selectedColor: Colors.grey,
+                                label: Text(_reservationCtrl.timeSlots[i], style: kBodyStyle),
+                                selected: _reservationCtrl.selectedTimeSlot ==
+                                    _reservationCtrl.timeSlots[i],
+                                onSelected: (bool selected) {
+                                  _reservationCtrl.selectTimeSlot(
+                                      selected, _reservationCtrl.timeSlots[i]);
+                                },
+                              );
                             },
-                          );
-                        },
-                      ),
-                    ),
+                          ),
+                        ),
             ),
             const SizedBox(height: 18.0),
             CustomAsyncBtn(
@@ -222,6 +228,7 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                   for (var element in cartItemList) {
                     list.add({
                       'menuId': element.menuId,
+                      'menuName': element.name,
                       'qty': element.qty,
                     });
                   }
@@ -236,6 +243,7 @@ class _CreateReservationScreenState extends State<CreateReservationScreen> {
                       phoneNumber: _phoneNoController.text,
                       email: _emailController.text,
                       date: _dateController.text,
+                      restaurantId: cartItemList[0].restaurantId,
                       menuList: list,
                       totalAmount: totalAmount,
                     );
